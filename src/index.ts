@@ -1,8 +1,10 @@
+import EnvManager from "./config/EnvManager";
 import { createServer } from "./server";
+import logger from "./utils/Logger";
 
-const port = process.env.PORT || 3001;
+const port = EnvManager.getPort() || 3001;
 const server = createServer();
 
 server.listen(port, () => {
-  console.log(`api running on ${port}`);
+  logger.debug`api running on ${port}`;
 });

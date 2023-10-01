@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import "./database/connection";
 import errorHandler from "./middleware/errorHandler";
+import EnvManager from "./config/EnvManager";
 
 export const createServer = () => {
   const app = express();
@@ -14,7 +15,7 @@ export const createServer = () => {
     .use(cors());
 
   app.get("/healthz", (req, res) => {
-    return res.json({ ok: true, environment: process.env.NODE_ENV });
+    return res.json({ ok: true, environment: EnvManager.getNodeEnv() });
   });
 
   app.get("/message/:name", (req, res) => {

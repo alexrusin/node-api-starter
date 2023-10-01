@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import logger from "../utils/Logger";
+import EnvManager from "../config/EnvManager";
 
 export default function errorHandler(
   error: Error,
@@ -6,11 +8,11 @@ export default function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  if (res.headersSent || process.env.NODE_ENV === "development") {
+  if (res.headersSent || EnvManager.getNodeEnv() === "development") {
     return next(error);
   }
 
-  console.log(error);
+  logger.error`Error handler: ${error}`;
 
   res.status(400).json({
     error: {
